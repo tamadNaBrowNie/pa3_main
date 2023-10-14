@@ -1,3 +1,8 @@
+from subprocess import check_call
+from sys import executable
+check_call([executable, "-m", "pip", "install", 'icecream'])
+
+from icecream  import ic
 def editDistance(src, tag):
     SUB,EQ,RM,INS ='s','m','d','i'
     m= len(src)
@@ -32,49 +37,31 @@ def editDistance(src, tag):
         pi,pj = i-1,j-1
         mat[i][j] = mat[pi][pj] if src[pi]==tag[pj] else 1+min(mat[pi][j], mat[i][pj], mat[pi][pj]+1)
         val = mat[i][j] -1
-        trc = ''
-        print(i,j)
+        ops[i][j] = ''
+        # print(i,j)
+        # ic.disable()
         if src[pi]==tag[pj]:
-            trc = ops[pi][pj]+EQ
-            # print(EQ,f'pi {pi} pj {pj}')
+            ops[i][j] = ops[pi][pj]+EQ
+            ic(EQ,f'pi {pi} pj {pj}')
         elif  mat[pi][pj]+1 == val:
-            trc= ops[pi][pj]+SUB
-            # print(SUB,f'pi {pi} pj {pj}')
+            ops[i][j]= ops[pi][pj]+SUB
+            ic(SUB,f'pi {pi} pj {pj}')
         elif val==mat[pi][j]: 
-            trc = ops[pi][j]+RM
-            # print(RM,f'pi {pi} j {j}')
+            ops[i][j] = ops[pi][j]+RM
+            ic(RM,f'pi {pi} j {j}')
         elif val == mat[i][pj]: 
-            trc=ops[i][pj]+INS
-            # print(INS,f'i {i} pj {pj}')
-        print('\n')
-        if src[pi]==tag[pj]:
-            trc = ops[pi][pj]+EQ
-            
-        elif  mat[pi][pj]+1 == val:
-            trc= ops[pi][pj]+SUB
-            
-        elif val==mat[pi][j]: 
-            trc = ops[pi][j]+RM
-            
-        elif val == mat[i][pj]: 
-            trc=ops[i][pj]+INS
+            ops[i][j]=ops[i][pj]+INS
+            ic(INS,f'i {i} pj {pj}')
+        return ops[i][j]
+        
 
             
     for i in range(1,m+1): 
+        print(f'\n\ni {i}\n++++')
         for j in range(1, n + 1):
             # inner(i,j)
-            old(i,j)
-            
-                
-              
-            # print(src[pi],tag[pj],src[pi]==tag[pj],trc)
-            # print('\n')
-            print(i,j)
-            print()
-        print()
-            
-            
-            
+            print('\nj:',j)
+            ic(old(i,j))
      
 
     trc_src, trc_tag =[],[]
